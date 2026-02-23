@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Slow Rotating Heart Text</title>
+<style>
+    body{
+        margin:0;
+        background:black;
+        overflow:hidden;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        font-family: monospace;
+    }
+    #heart{
+        position:relative;
+        width:600px;
+        height:600px;
+    }
+    .text{
+        position:absolute;
+        color:#ff9ecb;
+        font-size:14px;
+        white-space:nowrap;
+        text-shadow:0 0 8px #ff4da6;
+    }
+</style>
+</head>
+<body>
+
+<div id="heart"></div>
+
+<script>
+const heart = document.getElementById("heart");
+
+let basePoints = [];
+for (let t = 0; t < Math.PI * 2; t += 0.05) {
+
+    let x = 16 * Math.pow(Math.sin(t), 3);
+    let y = 13 * Math.cos(t) 
+            - 5 * Math.cos(2*t) 
+            - 2 * Math.cos(3*t) 
+            - Math.cos(4*t);
+
+    basePoints.push({t:t});
+}
+
+let offset = 0;
+
+function animate(){
+    heart.innerHTML = "";
+
+    offset += 0.008; // 🔥 ini yang bikin pelan (semakin kecil semakin lambat)
+
+    basePoints.forEach(p => {
+
+        let t = p.t + offset;
+
+        let x = 16 * Math.pow(Math.sin(t), 3);
+        let y = 13 * Math.cos(t) 
+                - 5 * Math.cos(2*t) 
+                - 2 * Math.cos(3*t) 
+                - Math.cos(4*t);
+
+        let span = document.createElement("span");
+        span.className = "text";
+        span.innerText = "Ilysm bimaa";
+
+        span.style.left = (x * 15 + 300) + "px";
+        span.style.top  = (-y * 15 + 300) + "px";
+
+        heart.appendChild(span);
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
